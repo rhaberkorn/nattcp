@@ -1,19 +1,14 @@
 #include <string.h>
 #include <stdio.h>
 
-#include <polarssl/net.h>
-#include <polarssl/ssl.h>
-#include <polarssl/havege.h>
-#include <polarssl/certs.h>
-#include <polarssl/x509.h>
-
-#ifdef BADCRL_EXPIRED /* version > 0.10.1 */
-#define ssl_set_ca_chain(SSL, CHAIN, CN) \
-	ssl_set_ca_chain(SSL, CHAIN, NULL, CN)
-#endif
+#include <tropicssl/net.h>
+#include <tropicssl/ssl.h>
+#include <tropicssl/havege.h>
+#include <tropicssl/certs.h>
+#include <tropicssl/x509.h>
 
 #define pserror(RET, FMT, ...) do {						\
-	fprintf(stderr, "Error: " FMT ": PolarSSL code -%#x\n", ##__VA_ARGS__,	\
+	fprintf(stderr, "Error: " FMT ": TropicSSL code -%#x\n", ##__VA_ARGS__,	\
 		-(RET));							\
 	fflush(stderr);								\
 } while (0)
@@ -100,7 +95,7 @@ ctl_init_ssl_client(int fd, const char *cert_file, const char *key_file, const c
 	ssl_set_ca_chain(&ssl, pca, (char *)server_cn);
 
 	while ((ret = ssl_handshake(&ssl)) != 0) {
-		if (ret != POLARSSL_ERR_NET_TRY_AGAIN) {
+		if (ret != TROPICSSL_ERR_NET_TRY_AGAIN) {
 			pserror(ret, "SSL client handshake");
 			goto abort;
 		}
@@ -186,7 +181,7 @@ ctl_init_ssl_server(int fd, const char *cert_file, const char *key_file, const c
 	ssl_set_dh_param(&ssl, (char *)my_dhm_P, (char *)my_dhm_G);
 
 	while ((ret = ssl_handshake(&ssl)) != 0) {
-		if (ret != POLARSSL_ERR_NET_TRY_AGAIN) {
+		if (ret != TROPICSSL_ERR_NET_TRY_AGAIN) {
 			pserror(ret, "SSL server handshake");
 			goto abort;
 		}

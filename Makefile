@@ -4,7 +4,7 @@ CC := gcc
 CFLAGS := -Wall -O
 
 override CPPFLAGS += -DUDP_FLIP -DSSL_AUTH
-override LDFLAGS += -lpolarssl
+override LDFLAGS += -ltropicssl
 
 LUAC := luac
 LUACFLAGS := -s
@@ -14,13 +14,13 @@ LUACFLAGS := -s
 #EXEEXT := .exe
 
 MANIFEST := nattcp$(EXEEXT) udp-climber
-DIST := Makefile nattcp.c polarssl.c udp-climber.lua nuttcp.8 LICENSE \
+DIST := Makefile nattcp.c tropicssl.c udp-climber.lua nuttcp.8 LICENSE \
 	xinetd.d/nattcp xinetd.d/nattcp4 xinetd.d/nattcp6 \
 	upstart/nattcp.conf
 
 all : $(MANIFEST)
 
-nattcp$(EXEEXT) : nattcp.o polarssl.o
+nattcp$(EXEEXT) : nattcp.o tropicssl.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 udp-climber : udp-climber.lua

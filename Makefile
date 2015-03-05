@@ -9,6 +9,8 @@ override LDFLAGS += -ltropicssl
 LUAC := luac
 LUACFLAGS := -s
 
+PREFIX := /usr/local
+
 # Cygwin
 #CFLAGS += -m32 -march=i486
 #EXEEXT := .exe
@@ -24,14 +26,14 @@ nattcp$(EXEEXT) : nattcp.o tropicssl.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 udp-climber : udp-climber.lua
-	echo "#!/usr/bin/lua" >$@
+	echo "#!$(PREFIX)/bin/lua" >$@
 	$(LUAC) $(LUACFLAGS) -o - $< >>$@
 	chmod +x $@
 
 install : $(MANIFEST)
-	mkdir -p $(DESTDIR)/usr/bin
-	install -m 0755 nattcp $(DESTDIR)/usr/bin/
-	install -m 0755 udp-climber $(DESTDIR)/usr/bin/
+	mkdir -p $(DESTDIR)$(PREFIX)/bin
+	install -m 0755 nattcp $(DESTDIR)$(PREFIX)/bin/
+	install -m 0755 udp-climber $(DESTDIR)$(PREFIX)/bin/
 
 clean:
 	rm -f *.o $(MANIFEST)

@@ -26,7 +26,7 @@ nattcp$(EXEEXT) : nattcp.o tropicssl.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 udp-climber : udp-climber.lua
-	echo "#!$(PREFIX)/bin/lua" >$@
+	echo "#!/usr/bin/lua" >$@
 	$(LUAC) $(LUACFLAGS) -o - $< >>$@
 	chmod +x $@
 
